@@ -70,6 +70,8 @@ Next, it replaces the Loki Pod and checks that earlier records remain queryable 
 
 [Test results](docs/validation.en.md) describe what ran and what those checks cannot establish. The test does not restart the application or its database. Argo CD continues managing the app; logging-lab is applied through scripts and is not yet an Argo CD Application.
 
+The same **16 checks passed locally and in GitHub Actions**, including Grafana queries, Loki Pod replacement and collector permissions.
+
 ## Store logs without keeping everything forever
 
 Loki v3.7.8 and Alloy v1.20.1 images are pinned by digest in `config/images.json`. Loki uses TSDB, filesystem storage and a 2 GiB local PVC. Retention is configured for 24 hours with asynchronous compactor deletion; this is not a disk size limit and has not been verified by waiting a whole day. Alloy has a 1 GiB PVC for local state.

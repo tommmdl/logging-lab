@@ -70,6 +70,8 @@ Depois, substitui o Pod do Loki e confere se os registros anteriores continuam c
 
 Os [resultados](docs/validation.md) guardam o que foi executado e os limites dessas verificações. A aplicação e seu banco não são reiniciados pelo teste. O Argo CD continua gerenciando a aplicação; este logging-lab é aplicado pelos scripts e ainda não é uma Application do Argo CD.
 
+As mesmas **16 verificações passaram localmente e no GitHub Actions**, incluindo consultas pelo Grafana, troca do Pod do Loki e permissões de coleta.
+
 ## Guardar sem acumular para sempre
 
 As imagens do Loki v3.7.8 e Alloy v1.20.1 estão fixadas por digest em `config/images.json`. O Loki usa TSDB, filesystem e um PVC local de 2 GiB. A retenção está configurada para 24 horas, com remoção assíncrona pelo compactor; ela não é um limite de tamanho do disco e não foi validada esperando um dia inteiro. O Alloy tem um PVC de 1 GiB para seu estado local.

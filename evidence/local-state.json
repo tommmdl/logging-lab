@@ -1,0 +1,11 @@
+{
+  "observed_at_utc": "2026-10-18T12:25:55Z",
+  "argocd": {
+    "sync": "Synced",
+    "health": "Healthy"
+  },
+  "notes_api": {
+    "desired_replicas": 2,
+    "ready_replicas": 2
+  }
+}

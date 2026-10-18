@@ -10,4 +10,6 @@ The [local evidence](../evidence/local-results.json) records UTC time, versions,
 
 The 24-hour retention setting has not been verified through a day-long test. Node loss, backup restore, load, extended outages, protection against cluster administrators and lossless/exactly-once delivery were not tested. Logs remain on local storage with one replica. The test does not push log lines directly to Loki's ingestion API.
 
-The GitHub Actions result will be recorded after the first run.
+All **16 checks passed locally and in [GitHub Actions](https://github.com/tommmdl/logging-lab/actions/runs/39127209979)**. See the [CI results](../evidence/ci-results.json) and [tested revision](../evidence/ci-run.json). Later documentation and evidence commits do not change the tested code.
+
+All four panel queries were also executed through Grafana: [results](../evidence/dashboard-queries.json). The [local snapshot](../evidence/local-state.json) records healthy Argo CD state and two API replicas.

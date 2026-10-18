@@ -10,4 +10,6 @@ A [evidência local](../evidence/local-results.json) guarda horário UTC, versõ
 
 A retenção de 24 horas é uma configuração, não um teste de duração executado. Não foram testados perda de nó, restauração de backup, carga, indisponibilidade longa, segurança contra um administrador do cluster ou entrega sem perda/repetição. Os logs permanecem em armazenamento local, com uma réplica. O teste não envia linhas diretamente à API de ingestão do Loki.
 
-O resultado do GitHub Actions será acrescentado após a primeira execução.
+As **16 verificações passaram localmente e no [GitHub Actions](https://github.com/tommmdl/logging-lab/actions/runs/39127209979)**. Veja os [resultados do CI](../evidence/ci-results.json) e a [revisão testada](../evidence/ci-run.json). Os commits posteriores de documentação e evidências não alteram o código testado.
+
+As consultas dos quatro painéis também foram executadas pelo datasource do Grafana: [resultado](../evidence/dashboard-queries.json). O [estado local](../evidence/local-state.json) registra o Argo CD saudável e a API com duas réplicas.

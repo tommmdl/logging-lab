@@ -1,0 +1,22 @@
+[
+  {
+    "panel": "Logs da API / API logs",
+    "frames": 1,
+    "query_accepted": true
+  },
+  {
+    "panel": "Linhas por segundo / Log lines per second",
+    "frames": 2,
+    "query_accepted": true
+  },
+  {
+    "panel": "Respostas HTTP 4xx/5xx / HTTP error responses",
+    "frames": 1,
+    "query_accepted": true
+  },
+  {
+    "panel": "Logs do banco / Database logs",
+    "frames": 1,
+    "query_accepted": true
+  }
+]

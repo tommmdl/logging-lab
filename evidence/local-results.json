@@ -1,12 +1,12 @@
 {
-  "executed_at_utc": "2026-10-18T12:24:50Z",
+  "executed_at_utc": "2026-10-18T12:25:45Z",
   "checks_passed": 16,
   "checks": [
     "Real API requests collected through Alloy",
     "Controlled 404 appears in application logs",
     "Logs carry namespace, app, pod and container labels",
     "Marker is not an indexed label",
-    "PostgreSQL stdout logs also collected",
+    "PostgreSQL log message also collected",
     "Grafana Loki datasource is healthy",
     "Grafana query returns the request marker",
     "Logging dashboard contains four panels",
@@ -19,7 +19,7 @@
     "Collector denied secrets in notes-lab",
     "Collector denied pods/log in monitoring-lab"
   ],
-  "marker": "logging-lab-926a17b1c17f43f9ba381d25555b795f",
+  "marker": "logging-lab-89c4de6a177443ce8094343daaefeb59",
   "versions": {
     "loki": {
       "tag": "grafana/loki:3.7.8",
