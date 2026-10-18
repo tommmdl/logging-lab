@@ -93,3 +93,7 @@ This removes only this project's Grafana datasource and dashboard, its collector
 `.local/` files stay outside Git. Setup and tests were carried out with assistant help. Possible next steps include structured logs, trace correlation, masking and external storage.
 
 References: [Alloy collection](https://grafana.com/docs/alloy/latest/collect/logs-in-kubernetes/), [API log source](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.kubernetes/) and [Loki storage](https://grafana.com/docs/loki/latest/configure/storage/).
+
+## Follow a request through traces
+
+[tracing-lab](https://github.com/tommmdl/tracing-lab) instruments the API with OpenTelemetry and adds Tempo to Grafana. Application JSON lines include trace IDs so related logs can be found without making each ID a label.

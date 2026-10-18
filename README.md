@@ -93,3 +93,7 @@ Isso remove somente o datasource e painel deste projeto no Grafana, suas permiss
 Os arquivos de `.local/` ficam fora do Git. A configuração e os testes foram feitos com ajuda do assistente. Entre os próximos passos estão logs estruturados, correlação com traces, mascaramento e armazenamento externo.
 
 Referências: [coleta com Alloy](https://grafana.com/docs/alloy/latest/collect/logs-in-kubernetes/), [componente de leitura pela API](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.source.kubernetes/) e [armazenamento do Loki](https://grafana.com/docs/loki/latest/configure/storage/).
+
+## Seguir a requisição pelos traces
+
+O [tracing-lab](https://github.com/tommmdl/tracing-lab) instrumenta a API com OpenTelemetry e acrescenta Tempo ao Grafana. As linhas JSON da aplicação passam a trazer trace IDs, permitindo encontrar os logs relacionados ao span sem transformar o ID em label.
