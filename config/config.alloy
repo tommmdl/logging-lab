@@ -1,0 +1,50 @@
+logging {
+  level = "info"
+}
+
+discovery.kubernetes "notes" {
+  role = "pod"
+  namespaces {
+    names = ["notes-lab"]
+  }
+}
+
+discovery.relabel "notes" {
+  targets = discovery.kubernetes.notes.targets
+  rule {
+    source_labels = ["__meta_kubernetes_pod_label_app"]
+    action = "keep"
+    regex = "notes-api|notes-db"
+  }
+  rule {
+    source_labels = ["__meta_kubernetes_namespace"]
+    target_label = "namespace"
+  }
+  rule {
+    source_labels = ["__meta_kubernetes_pod_name"]
+    target_label = "pod"
+  }
+  rule {
+    source_labels = ["__meta_kubernetes_pod_container_name"]
+    target_label = "container"
+  }
+  rule {
+    source_labels = ["__meta_kubernetes_pod_label_app"]
+    target_label = "app"
+  }
+  rule {
+    target_label = "job"
+    replacement = "kubernetes/notes"
+  }
+}
+
+loki.source.kubernetes "notes" {
+  targets = discovery.relabel.notes.output
+  forward_to = [loki.write.local.receiver]
+}
+
+loki.write "local" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}

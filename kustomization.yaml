@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: logging-lab
+resources:
+  - manifests/namespace.yaml
+  - manifests/serviceaccount.yaml
+  - manifests/workloads.yaml
+configMapGenerator:
+  - name: loki-config
+    files: [config/loki.yaml]
+  - name: alloy-config
+    files: [config/config.alloy]

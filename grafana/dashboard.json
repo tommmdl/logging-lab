@@ -1,0 +1,139 @@
+{
+  "uid": "notes-logs",
+  "title": "O que a aplica\u00e7\u00e3o conta / Application logs",
+  "schemaVersion": 39,
+  "version": 1,
+  "tags": [
+    "logging-lab",
+    "notes"
+  ],
+  "editable": false,
+  "timezone": "browser",
+  "refresh": "10s",
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Logs da API / API logs",
+      "type": "logs",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 10
+      },
+      "datasource": {
+        "type": "loki",
+        "uid": "logging-loki"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{namespace=\"notes-lab\",app=\"notes-api\"}",
+          "queryType": "range",
+          "legendFormat": "{{app}}"
+        }
+      ],
+      "options": {
+        "showTime": true,
+        "wrapLogMessage": true,
+        "sortOrder": "Descending"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "id": 2,
+      "title": "Linhas por segundo / Log lines per second",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 0,
+        "y": 10,
+        "w": 12,
+        "h": 7
+      },
+      "datasource": {
+        "type": "loki",
+        "uid": "logging-loki"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (app) (rate({namespace=\"notes-lab\",job=\"kubernetes/notes\"}[1m]))",
+          "queryType": "range",
+          "legendFormat": "{{app}}"
+        }
+      ],
+      "options": {},
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "id": 3,
+      "title": "Respostas HTTP 4xx/5xx / HTTP error responses",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 12,
+        "y": 10,
+        "w": 12,
+        "h": 7
+      },
+      "datasource": {
+        "type": "loki",
+        "uid": "logging-loki"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(count_over_time({namespace=\"notes-lab\",app=\"notes-api\"} |~ `\" [45][0-9]{2} ` [1m])) or vector(0)",
+          "queryType": "range",
+          "legendFormat": "{{app}}"
+        }
+      ],
+      "options": {},
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "id": 4,
+      "title": "Logs do banco / Database logs",
+      "type": "logs",
+      "gridPos": {
+        "x": 0,
+        "y": 17,
+        "w": 24,
+        "h": 8
+      },
+      "datasource": {
+        "type": "loki",
+        "uid": "logging-loki"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{namespace=\"notes-lab\",app=\"notes-db\"}",
+          "queryType": "range",
+          "legendFormat": "{{app}}"
+        }
+      ],
+      "options": {
+        "showTime": true,
+        "wrapLogMessage": true,
+        "sortOrder": "Descending"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    }
+  ]
+}
