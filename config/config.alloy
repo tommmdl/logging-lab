@@ -14,7 +14,7 @@ discovery.relabel "notes" {
   rule {
     source_labels = ["__meta_kubernetes_pod_label_app"]
     action = "keep"
-    regex = "notes-api|notes-db|notes-db-alpine"
+    regex = "notes-api|notes-api-alpine|notes-db|notes-db-alpine"
   }
   rule {
     source_labels = ["__meta_kubernetes_namespace"]

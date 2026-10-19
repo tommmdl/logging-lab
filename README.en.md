@@ -30,7 +30,7 @@ python3 tests/verify.py
 
 Scripts select context `kind-devops-notes` and use Kubernetes lab's private kubeconfig. Export `KUBERNETES_LAB_DIR` for a different location.
 
-Loki and Alloy run in `logging-lab`. A Role and RoleBinding in `notes-lab` let Alloy's identity read Pods and their logs there. It cannot read Secrets or logs in other namespaces. Discovery selects `notes-api`, `notes-db` and `notes-db-alpine` Pods; Pod and log read permissions cover the namespace, not just these labels.
+Loki and Alloy run in `logging-lab`. A Role and RoleBinding in `notes-lab` let Alloy's identity read Pods and their logs there. It cannot read Secrets or logs in other namespaces. Discovery selects `notes-api`, `notes-api-alpine`, `notes-db` and `notes-db-alpine` Pods; Pod and log read permissions cover the namespace, not just these labels.
 
 ## Find the logs
 
@@ -99,3 +99,5 @@ References: [Alloy collection](https://grafana.com/docs/alloy/latest/collect/log
 [tracing-lab](https://github.com/tommmdl/tracing-lab) instruments the API with OpenTelemetry and adds Tempo to Grafana. Application JSON lines include trace IDs so related logs can be found without making each ID a label.
 
 After PostgreSQL Alpine adoption, discovery and the database dashboard query include both old and new Pod labels. The verification selects the active database from Service `postgres`, so it does not execute against the stopped Debian StatefulSet. [Migration evidence](https://github.com/tommmdl/security-lab/blob/main/docs/postgres-adoption.en.md).
+
+The [Alpine API experiment](https://github.com/tommmdl/security-lab/blob/main/docs/api-alpine.en.md) tests both basic and instrumented images with full scans, application checks and real Collector/Tempo/Grafana/Loki tracing. It uses separate workloads and databases; main API image pins remain unchanged.

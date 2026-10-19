@@ -30,7 +30,7 @@ python3 tests/verify.py
 
 Os scripts selecionam o contexto `kind-devops-notes` e usam o kubeconfig privado do Kubernetes lab. Para outro caminho, exporte `KUBERNETES_LAB_DIR`.
 
-O Loki e o Alloy ficam em `logging-lab`. Uma Role e um RoleBinding em `notes-lab` permitem que a identidade do Alloy leia Pods e seus logs nesse namespace. Ela não pode ler Secrets nem logs de outros namespaces. A descoberta filtra os Pods `notes-api`, `notes-db` e `notes-db-alpine`; as permissões de leitura de Pods e logs abrangem o namespace, não somente esses dois labels.
+O Loki e o Alloy ficam em `logging-lab`. Uma Role e um RoleBinding em `notes-lab` permitem que a identidade do Alloy leia Pods e seus logs nesse namespace. Ela não pode ler Secrets nem logs de outros namespaces. A descoberta filtra os Pods `notes-api`, `notes-api-alpine`, `notes-db` e `notes-db-alpine`; as permissões de leitura de Pods e logs abrangem o namespace, não somente esses dois labels.
 
 ## Encontrar os logs
 
@@ -99,3 +99,5 @@ Referências: [coleta com Alloy](https://grafana.com/docs/alloy/latest/collect/l
 O [tracing-lab](https://github.com/tommmdl/tracing-lab) instrumenta a API com OpenTelemetry e acrescenta Tempo ao Grafana. As linhas JSON da aplicação passam a trazer trace IDs, permitindo encontrar os logs relacionados ao span sem transformar o ID em label.
 
 Depois da adoção do PostgreSQL Alpine, a descoberta e a consulta do painel incluem os labels antigos e novos do banco. O teste escolhe o banco ativo pelo Service `postgres`, sem executar no StatefulSet Debian parado. [Evidências da migração](https://github.com/tommmdl/security-lab/blob/main/docs/postgres-adoption.md).
+
+O [ensaio da API Alpine](https://github.com/tommmdl/security-lab/blob/main/docs/api-alpine.md) testa as imagens básica e instrumentada com scans completos, aplicação e tracing real por Collector/Tempo/Grafana/Loki. Usa workloads e bancos separados; os pins da API principal continuam iguais.
