@@ -120,7 +120,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "{namespace=\"notes-lab\",app=\"notes-db\"}",
+          "expr": "{namespace=\"notes-lab\",app=~\"notes-db(-alpine)?\"}",
           "queryType": "range",
           "legendFormat": "{{app}}"
         }

@@ -30,7 +30,7 @@ python3 tests/verify.py
 
 Os scripts selecionam o contexto `kind-devops-notes` e usam o kubeconfig privado do Kubernetes lab. Para outro caminho, exporte `KUBERNETES_LAB_DIR`.
 
-O Loki e o Alloy ficam em `logging-lab`. Uma Role e um RoleBinding em `notes-lab` permitem que a identidade do Alloy leia Pods e seus logs nesse namespace. Ela não pode ler Secrets nem logs de outros namespaces. A descoberta filtra os Pods `notes-api` e `notes-db`; as permissões de leitura de Pods e logs abrangem o namespace, não somente esses dois labels.
+O Loki e o Alloy ficam em `logging-lab`. Uma Role e um RoleBinding em `notes-lab` permitem que a identidade do Alloy leia Pods e seus logs nesse namespace. Ela não pode ler Secrets nem logs de outros namespaces. A descoberta filtra os Pods `notes-api`, `notes-db` e `notes-db-alpine`; as permissões de leitura de Pods e logs abrangem o namespace, não somente esses dois labels.
 
 ## Encontrar os logs
 
@@ -57,7 +57,7 @@ No Explore, selecione Notes Loki e experimente:
 ```
 
 ```logql
-{namespace="notes-lab", app="notes-db"}
+{namespace="notes-lab", app=~"notes-db(-alpine)?"}
 ```
 
 O painel também mostra linhas por segundo e uma contagem de respostas HTTP 4xx/5xx identificadas no formato de acesso atual do Gunicorn. Essa consulta depende desse formato e não é uma taxa de erro instrumentada na aplicação. Linhas de health check e das sondas de monitoramento também aparecem.
@@ -97,3 +97,5 @@ Referências: [coleta com Alloy](https://grafana.com/docs/alloy/latest/collect/l
 ## Seguir a requisição pelos traces
 
 O [tracing-lab](https://github.com/tommmdl/tracing-lab) instrumenta a API com OpenTelemetry e acrescenta Tempo ao Grafana. As linhas JSON da aplicação passam a trazer trace IDs, permitindo encontrar os logs relacionados ao span sem transformar o ID em label.
+
+Depois da adoção do PostgreSQL Alpine, a descoberta e a consulta do painel incluem os labels antigos e novos do banco. O teste escolhe o banco ativo pelo Service `postgres`, sem executar no StatefulSet Debian parado. [Evidências da migração](https://github.com/tommmdl/security-lab/blob/main/docs/postgres-adoption.md).

@@ -43,9 +43,10 @@ with forward('notes-lab','notes-api',80) as app,forward('logging-lab','loki',310
     check('Controlled 404 appears in application logs',any('/__logging_missing__/'+marker in line and ' 404 ' in line for line in lines(collected)))
     check('Logs carry namespace, app, pod and container labels',all(s['stream'].get('namespace')=='notes-lab' and s['stream'].get('app')=='notes-api' and s['stream'].get('pod') and s['stream'].get('container') for s in collected))
     check('Marker is not an indexed label',all(marker not in str(s['stream']) for s in collected))
-    k('-n','notes-lab','exec','statefulset/postgres','--','psql','-U','lab','-d','notes','-c',"DO $$ BEGIN RAISE LOG '"+marker+"'; END $$;")
-    wait(lambda:marker in '\n'.join(lines(logs(loki,'{namespace="notes-lab",app="notes-db"}'))))
-    check('PostgreSQL log message also collected',marker in '\n'.join(lines(logs(loki,'{namespace="notes-lab",app="notes-db"}'))))
+    db='postgres-alpine' if obj('-n','notes-lab','get','service','postgres')['spec']['selector'].get('app')=='notes-db-alpine' else 'postgres'
+    k('-n','notes-lab','exec','statefulset/'+db,'--','psql','-U','lab','-d','notes','-c',"DO $$ BEGIN RAISE LOG '"+marker+"'; END $$;")
+    wait(lambda:marker in '\n'.join(lines(logs(loki,'{namespace="notes-lab",app=~"notes-db(-alpine)?"}'))))
+    check('PostgreSQL log message also collected',marker in '\n'.join(lines(logs(loki,'{namespace="notes-lab",app=~"notes-db(-alpine)?"}'))))
     auth=password()
     check('Grafana Loki datasource is healthy',api(grafana,'/api/datasources/uid/logging-loki/health',auth=auth)['status']=='OK')
     now=int(time.time()*1000)

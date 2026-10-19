@@ -30,7 +30,7 @@ python3 tests/verify.py
 
 Scripts select context `kind-devops-notes` and use Kubernetes lab's private kubeconfig. Export `KUBERNETES_LAB_DIR` for a different location.
 
-Loki and Alloy run in `logging-lab`. A Role and RoleBinding in `notes-lab` let Alloy's identity read Pods and their logs there. It cannot read Secrets or logs in other namespaces. Discovery selects `notes-api` and `notes-db` Pods; Pod and log read permissions cover the namespace, not just these labels.
+Loki and Alloy run in `logging-lab`. A Role and RoleBinding in `notes-lab` let Alloy's identity read Pods and their logs there. It cannot read Secrets or logs in other namespaces. Discovery selects `notes-api`, `notes-db` and `notes-db-alpine` Pods; Pod and log read permissions cover the namespace, not just these labels.
 
 ## Find the logs
 
@@ -57,7 +57,7 @@ In Explore, select Notes Loki and try:
 ```
 
 ```logql
-{namespace="notes-lab", app="notes-db"}
+{namespace="notes-lab", app=~"notes-db(-alpine)?"}
 ```
 
 The dashboard also shows log lines per second and HTTP 4xx/5xx counts recognized in the current Gunicorn access format. That query depends on this format; it is not an instrumented application error rate. Health checks and monitoring probes appear in these logs too.
@@ -97,3 +97,5 @@ References: [Alloy collection](https://grafana.com/docs/alloy/latest/collect/log
 ## Follow a request through traces
 
 [tracing-lab](https://github.com/tommmdl/tracing-lab) instruments the API with OpenTelemetry and adds Tempo to Grafana. Application JSON lines include trace IDs so related logs can be found without making each ID a label.
+
+After PostgreSQL Alpine adoption, discovery and the database dashboard query include both old and new Pod labels. The verification selects the active database from Service `postgres`, so it does not execute against the stopped Debian StatefulSet. [Migration evidence](https://github.com/tommmdl/security-lab/blob/main/docs/postgres-adoption.en.md).
